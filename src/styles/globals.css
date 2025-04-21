@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 13, 17, 23;
+  --background-end-rgb: 30, 41, 59;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+.glass-panel {
+  @apply bg-glass rounded-xl backdrop-blur-xl border border-white/10 shadow-glass;
+}
+
+.glass-button {
+  @apply bg-glass hover:bg-glass-dark transition-all duration-300 rounded-lg border border-white/10 shadow-glass;
+}
+
+.bob-glow {
+  @apply shadow-glow;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Animations */
+.typing-animation::after {
+  content: '|';
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.bottle-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bottle-hover:hover {
+  transform: translateY(-5px) rotate(2deg);
+  @apply shadow-glow;
+}
