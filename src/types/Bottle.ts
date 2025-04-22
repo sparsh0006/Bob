@@ -17,6 +17,7 @@ export interface Bottle {
   export interface BarData {
     user: string;
     bottles: Bottle[];
+    userNotFound?: boolean;
   }
   
   export interface RecommendationReason {
