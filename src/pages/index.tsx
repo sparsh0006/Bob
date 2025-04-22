@@ -5,7 +5,7 @@ import Layout from '../components/layout/Layout';
 import BobAvatar from '../components/bob/BobAvatar';
 import BobDialog from '../components/bob/BobDialog';
 import BottleList from '../components/bar/BottleList';
-import RecommendationList from '../components/recommendations/RecommendationList';
+import RecommendationDeck from '../components/recommendations/RecommendationDeck'; // Import the new component
 import { useBar } from '../hooks/useBar';
 import { useRecommendations } from '../hooks/useRecommendations';
 import Button from '../components/ui/Button';
@@ -140,33 +140,36 @@ export default function Home() {
            </motion.div>
 
            <motion.div
-             className="glass-panel p-6"
-             initial={{ opacity: 0, x: 20 }}
-             animate={{ opacity: 1, x: 0 }}
-             transition={{ duration: 0.5, delay: 0.7 }}
-           >
-             <h2 className="text-2xl font-serif font-semibold mb-4 border-b border-accent-light pb-2">
-               Bob's Recommendations
-             </h2>
-             {barData.userNotFound || barData.bottles.length === 0 ? (
-               <div className="text-center p-6">
-                 <p className="text-gray-300">
-                   Add bottles to your collection to see personalized recommendations.
-                 </p>
-               </div>
-             ) : isAnalyzing || isRecommendationsLoading ? (
-               <div className="flex flex-col items-center justify-center p-12">
-                 <Loading size="lg" />
-                 <p className="mt-4 text-gray-300">Bob is analyzing your taste profile...</p>
-               </div>
-             ) : recommendations.length > 0 ? (
-               <RecommendationList recommendations={recommendations} />
-             ) : (
-               <p className="text-center p-8 text-gray-300">
-                 Add more bottles to your collection for personalized recommendations.
-               </p>
-             )}
-           </motion.div>
+                className="glass-panel p-6"
+                style={{ height: "600px" }} // Set a fixed height for the recommendations panel
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+              >
+                <h2 className="text-2xl font-serif font-semibold mb-4 border-b border-accent-light pb-2">
+                  Bob's Recommendations
+                </h2>
+                {barData.userNotFound || barData.bottles.length === 0 ? (
+                  <div className="text-center p-6">
+                    <p className="text-gray-300">
+                      Add bottles to your collection to see personalized recommendations.
+                    </p>
+                  </div>
+                ) : isAnalyzing || isRecommendationsLoading ? (
+                  <div className="flex flex-col items-center justify-center p-12">
+                    <Loading size="lg" />
+                    <p className="mt-4 text-gray-300">Bob is analyzing your taste profile...</p>
+                  </div>
+                ) : recommendations.length > 0 ? (
+                  <div className="h-[calc(100%-3rem)]"> {/* This ensures proper height accounting for heading */}
+                    <RecommendationDeck recommendations={recommendations} />
+                  </div>
+                ) : (
+                  <p className="text-center p-8 text-gray-300">
+                    Add more bottles to your collection for personalized recommendations.
+                  </p>
+                )}
+              </motion.div>
          </div>
        )}
      </main>
