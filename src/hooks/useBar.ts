@@ -1,3 +1,4 @@
+// src/hooks/useBar.ts
 import { useState } from 'react';
 import { BarData } from '../types/Bottle';
 import { fetchBarData } from '../services/api';
@@ -12,10 +13,13 @@ export const useBar = () => {
     setError(null);
     
     try {
+      console.log(`useBar: Fetching bar data for ${username}`);
       const data = await fetchBarData(username);
+      console.log('useBar: Received bar data:', data);
       setBarData(data);
       return data;
     } catch (err) {
+      console.error('useBar: Error fetching bar data:', err);
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
       return null;

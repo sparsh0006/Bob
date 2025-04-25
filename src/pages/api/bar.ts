@@ -1,3 +1,4 @@
+// src/pages/api/bar.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
@@ -12,6 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
     try {
+      // Call the BAXUS API endpoint directly
       const response = await axios.get(`https://services.baxus.co/api/bar/user/${encodeURIComponent(username)}`);
       return res.status(200).json(response.data);
     } catch (error) {
