@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BottleRecommendation } from '../types/Bottle';
-import { getRecommendationsForUser } from '../services/api';
+import axios from 'axios';
 
 export const useRecommendations = () => {
   const [recommendations, setRecommendations] = useState<BottleRecommendation[]>([]);
@@ -12,9 +12,10 @@ export const useRecommendations = () => {
     setError(null);
     
     try {
-      const data = await getRecommendationsForUser(username);
-      setRecommendations(data);
-      return data;
+      // Use the new GPT-powered recommendations API
+      const response = await axios.get(`/api/recommendations-gpt?username=${encodeURIComponent(username)}`);
+      setRecommendations(response.data);
+      return response.data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
