@@ -1,4 +1,6 @@
-// src/pages/api/recommendations-gpt.ts
+// File: src/pages/api/recommendations-gpt.ts
+// Replace the entire file with this updated code
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
@@ -36,9 +38,9 @@ const mapSupabaseBottle = (bottle: any): Bottle => ({
   type: bottle.spirit_type || 'Unknown',
   subType: '', 
   age: undefined,
-  abv: bottle.abv || (bottle.proof ? bottle.proof / 2 : null),
-  price: bottle.avg_msrp || bottle.fair_price || bottle.shelf_price || 0,
-  rating: bottle.popularity ? (Math.min(bottle.popularity / 20000, 5)) : undefined,
+  abv: bottle.abv || (bottle.proof ? parseFloat(bottle.proof) / 2 : null),
+  price: parseFloat(bottle.avg_msrp) || bottle.fair_price || bottle.shelf_price || 0,
+  rating: bottle.popularity ? (Math.min(parseFloat(bottle.popularity) / 20000, 5)) : undefined,
   tasting_notes: [], 
   image_url: bottle.image_url || '/images/bottle-placeholder.jpg',
 });
@@ -46,15 +48,19 @@ const mapSupabaseBottle = (bottle: any): Bottle => ({
 // Helper functions
 function determineRegionFromSpirit(spirit: string): string {
   if (!spirit) return 'Unknown';
-  if (spirit.includes('Bourbon')) return 'Kentucky';
-  if (spirit.includes('Scotch')) return 'Scotland';
+  if (spirit && spirit.includes('Bourbon')) return 'Kentucky';
+  if (spirit && spirit.includes('Scotch')) return 'Scotland';
+  if (spirit && spirit.includes('Irish')) return 'Ireland';
+  if (spirit && spirit.includes('Japanese')) return 'Japan';
   return 'Unknown';
 }
 
 function determineCountryFromSpirit(spirit: string): string {
   if (!spirit) return 'Unknown';
-  if (spirit.includes('Bourbon')) return 'USA';
-  if (spirit.includes('Scotch')) return 'Scotland';
+  if (spirit && spirit.includes('Bourbon')) return 'USA';
+  if (spirit && spirit.includes('Scotch')) return 'Scotland';
+  if (spirit && spirit.includes('Irish')) return 'Ireland';
+  if (spirit && spirit.includes('Japanese')) return 'Japan';
   return 'Unknown';
 }
 
@@ -106,23 +112,29 @@ export default async function handler(
     try {
       console.log('Fetching candidate bottles from Supabase');
       
-      // Extract user preferences
+      // Extract user preferences for better recommendations
       const spiritTypes = userBottles
         .map(bottle => bottle.type)
         .filter((value, index, self) => self.indexOf(value) === index);
       
       console.log('User spirit types:', spiritTypes);
       
-      // Query Supabase
+      // Query all bottles from Supabase - fetching up to 20 bottles
+      // We're fetching based on the table structure you provided
       const { data, error } = await supabase
         .from('bottles')
         .select('*')
         .limit(10);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error querying bottles:', error);
+        throw error;
+      }
+      
+      console.log(`Retrieved ${data?.length || 0} bottles from Supabase`);
       
       if (!data || data.length === 0) {
-        throw new Error('No bottles found in Supabase');
+        throw new Error('No bottles found in database');
       }
       
       // Map and filter out bottles already in user's collection
@@ -131,18 +143,17 @@ export default async function handler(
         .filter(bottle => !userBottleIds.includes(bottle.id.toString()))
         .map(mapSupabaseBottle);
       
-      console.log(`Found ${candidateBottles.length} candidate bottles`);
+      console.log(`After filtering, have ${candidateBottles.length} candidate bottles`);
+      console.log('Candidate bottles:', candidateBottles);
+      
+      if (candidateBottles.length === 0) {
+        throw new Error('No candidate bottles available after filtering out user bottles');
+      }
     } catch (error) {
-      console.error('Error fetching from Supabase:', error);
+      console.error('Error with Supabase bottles:', error);
       return res.status(500).json({ 
-        message: 'Failed to fetch candidate bottles',
+        message: 'Failed to get candidate bottles from database',
         error: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-    
-    if (candidateBottles.length === 0) {
-      return res.status(500).json({ 
-        message: 'No candidate bottles available for recommendations'
       });
     }
     
@@ -160,7 +171,7 @@ ${JSON.stringify(userBottles, null, 2)}
 CANDIDATE BOTTLES:
 ${JSON.stringify(candidateBottles, null, 2)}
 
-Based on the user's collection, select 5 bottles from the candidate list that would best complement their collection. 
+Based on the user's collection, select ${Math.min(candidateBottles.length, 5)} bottles from the candidate list that would best complement their collection. 
 For each recommended bottle, provide:
 1. A match score between 0.0 and 1.0
 2. 2-3 specific reasons for the recommendation, considering:
@@ -193,29 +204,32 @@ The "type" for each reason should be one of: "similar", "complementary", "value"
 `;
       
       // Call OpenAI API
-      const openaiResponse = await axios.post(
-        'https://api.openai.com/v1/chat/completions',
-        {
-          model: 'gpt-4',
-          messages: [
-            {
-              role: 'system',
-              content: 'You are Bob, an AI whisky butler expert. Your task is to analyze a user\'s whisky collection and recommend bottles from a candidate list. Provide detailed reasoning for each recommendation.'
-            },
-            {
-              role: 'user',
-              content: prompt
-            }
-          ],
-          response_format: { type: 'json_object' }
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-          }
-        }
-      );
+  // Fix for src/pages/api/recommendations-gpt.ts
+// Replace lines 206-219 with this corrected code:
+
+const openaiResponse = await axios.post(
+  'https://api.openai.com/v1/chat/completions',
+  {
+    model: 'gpt-4o',
+    messages: [
+      {
+        role: 'system',
+        content: 'You are Bob, an AI whisky butler expert. Your task is to analyze a user\'s whisky collection and recommend bottles from a candidate list. Provide detailed reasoning for each recommendation.'
+      },
+      {
+        role: 'user',
+        content: prompt
+      }
+    ],
+    response_format: { type: 'json_object' }
+  },
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+    }
+  }
+);
       
       console.log('Received response from OpenAI');
       
