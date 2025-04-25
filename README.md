@@ -6,19 +6,11 @@ Bob is an AI-powered whisky recommendation engine built for the BAXUS ecosystem.
 
 ## Features
 
-- **Personalized Recommendations**: Bob analyzes your whisky collection and recommends bottles that match your taste profile.
+- **Personalized Recommendations**: Bob analyzes your whisky collection and recommends bottles that match your taste profile using GPT-powered analysis.
 - **Collection Visualization**: View your whisky collection with detailed information about each bottle.
 - **Taste Profile Analysis**: Get insights into your whisky preferences based on your collection.
-- **Interactive UI**: Smooth animations and an intuitive interface powered by Framer Motion.
 - **BAXUS Integration**: Seamlessly connects with your BAXUS whisky collection.
 
-## Tech Stack
-
-- **Frontend**: Next.js, React, TypeScript
-- **UI**: Tailwind CSS, Framer Motion, React Spring
-- **State Management**: React Query
-- **API**: Axios for API requests
-- **Styling**: Custom Tailwind theme with glass morphism effects
 
 ## Getting Started
 
@@ -26,6 +18,8 @@ Bob is an AI-powered whisky recommendation engine built for the BAXUS ecosystem.
 
 - Node.js 16.x or later
 - npm or yarn
+- Supabase account (for database)
+- OpenAI API key (for recommendation engine)
 
 ### Installation
 
@@ -42,20 +36,37 @@ npm install
 yarn install
 ```
 
-3. Run the development server:
+3. Create a `.env.local` file in the root directory with the following variables:
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+OPENAI_API_KEY=your_openai_api_key
+```
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Tech Stack
+
+- **Frontend**: Next.js, React, TypeScript
+- **UI**: Tailwind CSS, Framer Motion, React Spring
+- **State Management**: React Query
+- **API**: Axios for API requests
+- **AI Integration**: OpenAI GPT for intelligent whisky recommendations
+- **Database**: Supabase for storing bottle information
+- **Styling**: Custom Tailwind theme with glass morphism effects
 
 ## How It Works
 
 1. **User Authentication**: Users enter their BAXUS username to access their collection.
 2. **Collection Analysis**: Bob analyzes the user's whisky collection to understand preferences.
-3. **Recommendation Engine**: Using the analysis, Bob's recommendation engine finds bottles that match the user's taste profile.
+3. **AI Recommendation Engine**: Using GPT, Bob analyzes the collection and provides personalized recommendations.
 4. **Display Results**: Recommendations are displayed in an interactive card deck with detailed explanations.
 
 ## Features in Detail
@@ -66,7 +77,6 @@ Bob analyzes various aspects of your collection:
 - Region distribution
 - Distiller preferences
 - Whisky types
-- Age distribution
 - Price ranges
 - Flavor profile (sweet, fruity, smoky, peaty, etc.)
 
@@ -74,9 +84,9 @@ Bob analyzes various aspects of your collection:
 
 Recommendations are generated based on:
 - Similarity to existing bottles
-- Complementary flavors to diversify the collection
 - Value for money compared to your spending habits
 - Trending bottles in the whisky community
+- Complementary flavors to diversify the collection
 
 ### Bob's Personality
 
@@ -88,10 +98,30 @@ Bob has a distinct personality as an AI whisky butler, with:
 
 ## API Integration
 
-The application integrates with the BAXUS API to fetch user collections:
-- Proxy API routes to handle CORS and authentication
-- Error handling for user not found scenarios
-- Mock data for development environments
+The application integrates with:
+- BAXUS API to fetch user collections
+- OpenAI GPT for intelligent recommendations
+- Supabase for bottle database management
+
+## Project Structure
+
+```
+├── components             # React components
+│   ├── bar                # Bar visualization components
+│   ├── bob                # Bob avatar and dialog components
+│   ├── layout             # Layout components
+│   ├── recommendations    # Recommendation components
+│   └── ui                 # UI components (Button, Card, etc.)
+├── hooks                  # Custom React hooks
+├── pages                  # Next.js pages
+│   ├── api                # API routes
+│   └── index.tsx          # Main page
+├── services               # Service layer for API calls
+├── styles                 # Global styles
+├── types                  # TypeScript type definitions
+└── utils                  # Utility functions
+```
+
 
 ## Contributing
 
@@ -104,7 +134,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Acknowledgements
 
 - [BAXUS](https://baxus.co) for the whisky collection API
+- [OpenAI](https://openai.com) for the GPT API
 - [Tailwind CSS](https://tailwindcss.com) for the styling framework
 - [Framer Motion](https://www.framer.com/motion/) for animations
 - [Next.js](https://nextjs.org) for the React framework
-- [Vercel](https://vercel.com) for hosting recommendations
+- [Vercel](https://vercel.com) for hosting
+- [Supabase](https://supabase.io) for database services
