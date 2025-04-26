@@ -42,6 +42,29 @@ module.exports = {
         'typing': 'typing 1.5s steps(20, end) infinite',
         'uncork': 'uncork 0.5s ease-out',
         'float': 'float 3s ease-in-out infinite',
+        'spin': 'spin 1s linear infinite', // Add this line for the spinner
+      },
+      
+      // Add this to the keyframes section (around line 46-61)
+      keyframes: {
+        typing: {
+          '0%': { width: '0%' },
+          '50%': { width: '100%' },
+          '100%': { width: '0%' },
+        },
+        uncork: {
+          '0%': { transform: 'translateY(0) rotate(0deg)' },
+          '50%': { transform: 'translateY(-10px) rotate(-5deg)' },
+          '100%': { transform: 'translateY(0) rotate(0deg)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
       keyframes: {
         typing: {

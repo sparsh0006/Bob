@@ -109,7 +109,10 @@ const handleSubmit = async (e: React.FormEvent) => {
                 />
               </div>
               <Button type="submit" disabled={isBarLoading || isAnalyzing}>
-                {isBarLoading || isAnalyzing ? <Loading size="sm" /> : "Analyze My Collection"}
+                  {isBarLoading || isAnalyzing ? 
+                    <Loading size="sm" color="white" /> : 
+                    "Analyze My Collection"
+                  }
               </Button>
             </form>
           </motion.div>
@@ -170,9 +173,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                   </p>
                 </div>
               ) : isAnalyzing || isRecommendationsLoading ? (
-                <div className="flex flex-col items-center justify-center p-12">
-                  <Loading size="lg" />
-                  <p className="mt-4 text-gray-300">Bob is analyzing your taste profile...</p>
+                <div className="flex flex-col items-center justify-center h-full">
+                  <Loading size="lg" color="accent" text="Bob is analyzing your taste profile..." />
                 </div>
               ) : recommendations.length > 0 ? (
                 <div className="h-[calc(100%-3rem)]"> {/* This ensures proper height accounting for heading */}

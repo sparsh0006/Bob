@@ -22,7 +22,16 @@ export const useBar = () => {
       console.error('useBar: Error fetching bar data:', err);
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
-      return null;
+      
+      // Create a user not found response
+      const notFoundData = {
+        user: username,
+        bottles: [],
+        userNotFound: true
+      };
+      
+      setBarData(notFoundData);
+      return notFoundData;
     } finally {
       setIsLoading(false);
     }

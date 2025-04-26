@@ -17,18 +17,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const response = await axios.get(`https://services.baxus.co/api/bar/user/${encodeURIComponent(username)}`);
       return res.status(200).json(response.data);
     } catch (error) {
+      // Log the error in terminal but don't expose it to frontend
       console.log(`Error fetching data for ${username}:`, error);
-      // Return a structured user not found response
-      return res.status(404).json({ 
-        error: 'User not found',
+      
+      // Return 200 (not 404) with userNotFound flag
+      // This is the key change - return 200 status with userNotFound flag
+      return res.status(200).json({ 
+        user: username,
+        bottles: [],
+        userNotFound: true,
         message: `No bar data found for username: ${username}`
       });
     }
   } catch (error) {
     console.error('Error in API route:', error);
-    return res.status(500).json({ 
-      error: 'Server error',
-      message: 'Failed to fetch bar data. Please try again later.'
+    // Also return 200 here to prevent frontend errors
+    return res.status(200).json({ 
+      user: req.query.username as string || 'unknown',
+      bottles: [],
+      userNotFound: true,
+      error: 'Failed to fetch bar data. Please try again later.'
     });
   }
 }
