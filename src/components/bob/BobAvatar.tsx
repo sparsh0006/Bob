@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useSpring, animated } from 'react-spring';
 import ThinkingAnimation from './ThinkingAnimation';
 
 type BobAvatarProps = {
@@ -7,41 +6,11 @@ type BobAvatarProps = {
 };
 
 const BobAvatar = ({ isThinking = false }: BobAvatarProps) => {
-  // Floating animation for the avatar
-  const floatAnimation = useSpring({
-    from: { y: 0 },
-    to: async (next) => {
-      // Creates a continuous floating effect
-      while (true) {
-        await next({ y: -10 });
-        await next({ y: 0 });
-      }
-    },
-    config: { duration: 2000 },
-  });
-
-  // Pulse animation for thinking state
-  const pulseAnimation = useSpring({
-    opacity: isThinking ? 0.8 : 1,
-    scale: isThinking ? 1.05 : 1,
-    config: { duration: 1000 },
-    loop: isThinking,
-  });
-
-  // Create a styled div with animations
-  const AnimatedDiv = animated('div');
-
   return (
     <div className="relative">
-      <AnimatedDiv 
-        style={{
-          transform: floatAnimation.y.to(y => `translateY(${y}px)`),
-          opacity: pulseAnimation.opacity,
-          scale: pulseAnimation.scale
-        }}
-      >
+      <div>
         <motion.div 
-          className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-tr from-primary to-accent bob-glow flex items-center justify-center"
+          className="relative w-32 h-40 sm:w-40 sm:h-48 beer-glass-container flex items-center justify-center"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ 
@@ -51,49 +20,104 @@ const BobAvatar = ({ isThinking = false }: BobAvatarProps) => {
           }}
           whileHover={{ scale: 1.05 }}
         >
-          {/* Bob's facial features - minimalist AI-like design */}
+          {/* Beer Glass SVG with animations */}
           <div className="relative w-full h-full flex items-center justify-center">
-            {/* Eyes */}
-            <div className="absolute flex space-x-12 top-1/3">
-              <motion.div 
-                className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white"
+            {/* Glass container - this is the outline */}
+            <svg className="w-full h-full" viewBox="0 0 150 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 50C30 45 45 30 75 30C105 30 120 45 120 50L105 180H45L30 50Z" stroke="#D4B88C" strokeWidth="3" fill="rgba(30, 41, 59, 0.5)"/>
+              <path className="glass-highlight" d="M45 50C45 45 55 40 75 40C95 40 105 45 105 50" stroke="#FFFFFF" strokeWidth="2" strokeOpacity="0.5"/>
+              
+              {/* Wine filling animation */}
+              <motion.path 
+                d="M45 180V80C45 70 55 65 75 65C95 65 105 70 105 80V180H45Z"
+                fill="#8A6D3B"
+                initial={{ scaleY: 0, originY: 1 }}
                 animate={{ 
-                  scale: isThinking ? [1, 1.2, 1] : 1,
-                  opacity: isThinking ? [1, 0.7, 1] : 1
+                  scaleY: isThinking ? 1 : 0, 
                 }}
-                transition={{ repeat: isThinking ? Infinity : 0, duration: 2 }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: isThinking ? Infinity : 0,
+                  repeatType: "reverse"
+                }}
               />
-              <motion.div 
-                className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white"
+              
+              {/* Froth animation */}
+              <motion.path 
+                d="M45 80C45 70 55 65 75 65C95 65 105 70 105 80"
+                fill="#F5F5F5"
+                strokeWidth="0"
+                initial={{ y: 100 }}
                 animate={{ 
-                  scale: isThinking ? [1, 1.2, 1] : 1,
-                  opacity: isThinking ? [1, 0.7, 1] : 1
+                  y: isThinking ? 0 : 100,
                 }}
-                transition={{ repeat: isThinking ? Infinity : 0, duration: 2, delay: 0.3 }}
+                transition={{ 
+                  duration: 2,
+                  repeat: isThinking ? Infinity : 0,
+                  repeatType: "reverse"
+                }}
               />
-            </div>
+              
+              {/* Bubbles */}
+              {isThinking && (
+                <>
+                  <motion.circle 
+                    cx="60" cy="120" r="3" 
+                    fill="white" fillOpacity="0.7"
+                    animate={{
+                      y: [-20, -60],
+                      opacity: [0.7, 0]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      delay: 0.5
+                    }}
+                  />
+                  <motion.circle 
+                    cx="75" cy="100" r="2.5" 
+                    fill="white" fillOpacity="0.7"
+                    animate={{
+                      y: [-10, -40],
+                      opacity: [0.7, 0]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: 0.2
+                    }}
+                  />
+                  <motion.circle 
+                    cx="90" cy="130" r="2" 
+                    fill="white" fillOpacity="0.7"
+                    animate={{
+                      y: [-15, -50],
+                      opacity: [0.7, 0]
+                    }}
+                    transition={{
+                      duration: 2.2,
+                      repeat: Infinity,
+                      delay: 1
+                    }}
+                  />
+                </>
+              )}
+            </svg>
             
-            {/* Mouth - changes based on thinking state */}
-            {isThinking ? (
-              <div className="absolute top-2/3">
+            {/* Thinking animation (optional - can keep or remove) */}
+            {isThinking && (
+              <div className="absolute bottom-8">
                 <ThinkingAnimation />
               </div>
-            ) : (
-              <motion.div 
-                className="absolute top-2/3 w-12 h-1 sm:w-16 sm:h-1.5 bg-white rounded-full"
-                initial={{ width: 12 }}
-                animate={{ width: 48 }}
-                transition={{ duration: 0.5 }}
-              />
             )}
           </div>
         </motion.div>
-      </AnimatedDiv>
+      </div>
       
-      {/* Animated aura when thinking */}
+      {/* Glow effect when thinking */}
       {isThinking && (
         <motion.div 
-          className="absolute inset-0 rounded-full bg-accent"
+          className="absolute inset-0 rounded-full beer-glass-glow"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ 
             opacity: [0.1, 0.3, 0.1], 

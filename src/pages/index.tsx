@@ -62,7 +62,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             Meet Bob
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8">
-            Your AI Whisky Butler in the BAXUS Ecosystem
+            Your AI Whisky Sommelier in the BAXUS Ecosystem
           </p>
           
           <div className="flex justify-center mb-8">

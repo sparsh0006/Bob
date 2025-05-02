@@ -13,7 +13,7 @@ module.exports = {
           dark: '#644E2A',
         },
         secondary: {
-          DEFAULT: '#1E293B', // Dark blue slate
+          DEFAULT: '#121212', // Almost black
           light: '#334155',
           dark: '#0F172A',
         },

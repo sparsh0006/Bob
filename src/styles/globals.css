@@ -140,3 +140,24 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   overflow: hidden;
 }
+
+/* Beer Glass Styles */
+.beer-glass-container {
+  filter: drop-shadow(0 0 10px rgba(217, 119, 6, 0.3));
+}
+
+.beer-glass-glow {
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.2) 0%, rgba(217, 119, 6, 0) 70%);
+  filter: blur(10px);
+}
+
+/* Glass shimmer effect */
+.glass-highlight {
+  opacity: 0.6;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
