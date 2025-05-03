@@ -129,7 +129,6 @@ The application integrates with:
 For the application to work correctly, you need to:
 1. Set up a Supabase project with proper policies
 2. Enable read access to your bottles table using Row Level Security
-3. Use the fallback recommendation system if no bottles exist in the database
 
 ## Contributing
 
@@ -137,7 +136,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License 
 
 ## Acknowledgements
 
