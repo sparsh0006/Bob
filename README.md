@@ -1,8 +1,8 @@
-# Bob - Your AI Whisky Butler
+# Bob - Your AI Whisky Sommelier
 
 Bob is an AI-powered whisky recommendation engine built for the BAXUS ecosystem. It analyzes users' whisky collections and provides personalized bottle recommendations based on taste preferences, collection diversity, and other factors.
 
-![Bob AI Whisky Butler](public/images/bob-avatar.svg)
+![Bob AI Whisky Sommelier](public/images/whisky-glass.jpg)
 
 ## Features
 
@@ -10,7 +10,7 @@ Bob is an AI-powered whisky recommendation engine built for the BAXUS ecosystem.
 - **Collection Visualization**: View your whisky collection with detailed information about each bottle.
 - **Taste Profile Analysis**: Get insights into your whisky preferences based on your collection.
 - **BAXUS Integration**: Seamlessly connects with your BAXUS whisky collection.
-
+- **Animated Beer Glass Interface**: A sleek beer glass animation that fills with whisky during loading.
 
 ## Getting Started
 
@@ -55,19 +55,20 @@ yarn dev
 ## Tech Stack
 
 - **Frontend**: Next.js, React, TypeScript
-- **UI**: Tailwind CSS, Framer Motion, React Spring
+- **UI**: Tailwind CSS, Framer Motion
 - **State Management**: React Query
 - **API**: Axios for API requests
 - **AI Integration**: OpenAI GPT for intelligent whisky recommendations
 - **Database**: Supabase for storing bottle information
-- **Styling**: Custom Tailwind theme with glass morphism effects
+- **Styling**: Custom Tailwind theme with glass morphism effects and animated beer glass UI
 
 ## How It Works
 
 1. **User Authentication**: Users enter their BAXUS username to access their collection.
 2. **Collection Analysis**: Bob analyzes the user's whisky collection to understand preferences.
-3. **AI Recommendation Engine**: Using GPT, Bob analyzes the collection and provides personalized recommendations.
-4. **Display Results**: Recommendations are displayed in an interactive card deck with detailed explanations.
+3. **Loading Visualization**: Watch as the beer glass fills with whisky while Bob analyzes your collection.
+4. **AI Recommendation Engine**: Using GPT, Bob analyzes the collection and provides personalized recommendations.
+5. **Display Results**: Recommendations are displayed in an interactive card deck with detailed explanations.
 
 ## Features in Detail
 
@@ -90,8 +91,9 @@ Recommendations are generated based on:
 
 ### Bob's Personality
 
-Bob has a distinct personality as an AI whisky butler, with:
-- Animated avatar with facial expressions
+Bob has a distinct personality as an AI whisky sommelier, with:
+- Animated beer glass avatar that fills during analysis
+- Bubble animations and whisky filling effects
 - Typing animation for responses
 - Thoughtful analysis of your collection
 - Detailed explanations for recommendations
@@ -122,6 +124,12 @@ The application integrates with:
 └── utils                  # Utility functions
 ```
 
+## Database Setup
+
+For the application to work correctly, you need to:
+1. Set up a Supabase project with proper policies
+2. Enable read access to your bottles table using Row Level Security
+3. Use the fallback recommendation system if no bottles exist in the database
 
 ## Contributing
 
